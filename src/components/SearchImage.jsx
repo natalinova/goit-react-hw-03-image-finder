@@ -59,9 +59,10 @@ export default class SearchImage extends Component {
      }
     
     render() {
-        const {status, image, showModal, modalContent} = this.state
+        const { status, image, showModal, modalContent } = this.state;
       if(status === 'idle')
-      return  <div className='IdleMessage'> Do you want to find  some images? </div>
+            return
+        <div className='IdleMessage'> Do you want to find  some images? </div>
         if (status === 'pending')
             return <Loader/>
         if (status === 'rejected')
@@ -82,11 +83,6 @@ export default class SearchImage extends Component {
                     
                 </>
                
-            )
-                
-
-        
-     
-    
+            )   
   }
 }

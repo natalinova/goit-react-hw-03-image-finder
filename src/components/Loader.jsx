@@ -1,7 +1,7 @@
 import React from 'react'
 import { Audio } from 'react-loader-spinner'
 import './styles.css'
-;<Audio
+<Audio
   height="80"
   width="80"
   radius="9"
