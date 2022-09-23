@@ -1,16 +1,15 @@
+import axios from 'axios';
 import React, { Component } from 'react';
+import Button from './Button';
 import ImageGallery from './ImageGallery';
 import Loader from './Loader';
+import Modal from './Modal';
 
- const Search = (page, query) => {
-     fetch(`https://pixabay.com/api/?key=29442705-65f5f0476d101e3a0092bd469&q=${query}&image_type=photo&orientation=horizontal&page${page}&per_page=12`)
-         .then(response => {
-             console.log(response)
-             if (response) { return response.json() }
-             return Promise.reject(new Error(`No any images with key word`))
-         })
-         .catch()
-        // console.log(result)
+
+const Search = async (page, query) => {
+    const result = await axios.get(`https://pixabay.com/api/?key=29442705-65f5f0476d101e3a0092bd469&q=${query}&image_type=photo&orientation=horizontal&page${page}&per_page=12`)
+    const dataImage = result.data.hits;
+        return dataImage
     }
 
 export default class SearchImage extends Component {
@@ -18,7 +17,9 @@ export default class SearchImage extends Component {
         image:[],
         page:1,
         error: null,
-        status:'idle'
+        status: 'idle',
+        showModal: false,
+        modalContent:''
     }
     componentDidUpdate(prevProps, prevState) {
         const {page} = this.state
@@ -27,56 +28,64 @@ export default class SearchImage extends Component {
         if (prevQuery !== nextQuery || page !== prevState.page) {
             this.fetchImage(page,nextQuery)
         }
-        // if (prevQuery !== nextQuery) {
-        //     this.setState({ status: 'pending' })
-        //     fetch(`https://pixabay.com/api/?key=29442705-65f5f0476d101e3a0092bd469&q=${nextQuery}&image_type=photo&orientation=horizontal&page${this.state.page}&per_page=12`)
-        //         .then(response => {
-        //             if (response.ok) {
-        //             return response.json()
-        //             }
-        //             return Promise.reject(new Error(`No any images with key word ${nextQuery}`))
-        //         })
-               
-        //         .then(queryImage => {
-        //             this.setState({ status: 'resolved' })
-        //             //  тут потрібно додати деструктуризовані масиви, але спочатку їх витягнути
-        //             this.setState({ image: queryImage })
-                    
-        //         })
-        //     .catch(error => this.setState({error:(`No any images with key word ${nextQuery}`), status: 'rejected'}))
-        // }
-    
+       
     }
     async fetchImage() {
-    const { page } = this.state;
+    const { page} = this.state;
     const { query } = this.props;
     this.setState({ status: 'pending' })
-    
-    try {
-        const data = Search(page, query)
-        console.log(data)
+    const data = await Search(page, query)
+    try {   
+
+        this.setState(({image}) => {return {image:[...image, ...data]}})
+        console.log(data);
+        console.log(this.state.image)
          this.setState({ status: 'resolved' })
     }
-    catch {
+    catch (error){
+        
         this.setState({ error:'ALL IS BED!', status: 'rejected' })
     }
 }
-   
+    LoadMore = () => {
+
+       this.setState(({page}) => {return {page: page + 1}})
+       
+    }
+     toggleModal = () => {
+       this.setState(({showModal}) => ({
+           showModal: !showModal
+       }))
+     }
+    
     render() {
-        const {status} = this.state
+        const {status, image, showModal, modalContent} = this.state
       if(status === 'idle')
-      return  <div> Do you want to find  some images? </div>
+      return  <div className='IdleMessage'> Do you want to find  some images? </div>
         if (status === 'pending')
             return <Loader/>
         if (status === 'rejected')
             return <div>Error</div>
         if (status === 'resolved')
-            return
-        <ImageGallery
-                array={this.state.image.hits}
-                id={this.state.image.hits.id}
-            url={this.state.image.hits.previewURL}
-        />
+            return (
+                <>
+                    <ImageGallery
+                        array={image}
+                        loadModal={this.toggleModal} />
+                    <Button onClick={ this.LoadMore} />
+                    {/* <button onClick={this.LoadMore}>Load more</button> */}
+
+             {showModal && (<Modal OnClose={this.toggleModal}> 
+                        <img src={modalContent} alt='' />
+                   <button type="button" onClick={this.toggleModal}> Close modal</button>
+                    </Modal>)}
+                    
+                </>
+               
+            )
+                
+
+        
      
     
   }
