@@ -31,22 +31,22 @@ export default class SearchImage extends Component {
        
     }
     async fetchImage() {
-    const { page} = this.state;
-    const { query } = this.props;
-    this.setState({ status: 'pending' })
-    const data = await Search(page, query)
-    try {   
+        const { page} = this.state;
+        const { query } = this.props;
+        this.setState({ status: 'pending' })
+        const data = await Search(page, query)
+        try {   
 
         this.setState(({image}) => {return {image:[...image, ...data]}})
         console.log(data);
         console.log(this.state.image)
          this.setState({ status: 'resolved' })
-    }
-    catch (error){
+        }
+        catch (error){
         
         this.setState({ error:'ALL IS BED!', status: 'rejected' })
+        }
     }
-}
     LoadMore = () => {
 
        this.setState(({page}) => {return {page: page + 1}})
