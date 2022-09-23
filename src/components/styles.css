@@ -176,7 +176,12 @@ img {
   max-width: calc(100vw - 48px);
   max-height: calc(100vh - 24px);
 }
-
+.ModalButton{
+  width: 100px;
+  height: 40px;
+  background-color: #3f51b5;
+  border-radius: 10px;
+}
 /*
 * Стили компонента Buton (Load more)
 */

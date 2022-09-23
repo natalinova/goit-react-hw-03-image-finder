@@ -35,13 +35,14 @@ export default class SearchImage extends Component {
         const { query } = this.props;
         this.setState({ status: 'pending' })
         const data = await Search(page, query)
-        try {   
 
+        try {   
         this.setState(({image}) => {return {image:[...image, ...data]}})
         console.log(data);
         console.log(this.state.image)
          this.setState({ status: 'resolved' })
         }
+
         catch (error){
         
         this.setState({ error:'ALL IS BED!', status: 'rejected' })
@@ -78,7 +79,7 @@ export default class SearchImage extends Component {
 
              {showModal && (<Modal OnClose={this.toggleModal}> 
                         <img src={modalContent} alt='' />
-                   <button type="button" onClick={this.toggleModal}> Close modal</button>
+                   <button className='ModalButton' type="button" onClick={this.toggleModal}> Close modal</button>
                     </Modal>)}
                     
                 </>
