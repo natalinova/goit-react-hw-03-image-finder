@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import ImageGallery from './ImageGallery';
 import Loader from './Loader';
 
- const Search = async (page, query) => {
+ const Search = (page, query) => {
      fetch(`https://pixabay.com/api/?key=29442705-65f5f0476d101e3a0092bd469&q=${query}&image_type=photo&orientation=horizontal&page${page}&per_page=12`)
          .then(response => {
              console.log(response)
              if (response) { return response.json() }
              return Promise.reject(new Error(`No any images with key word`))
          })
+         .catch()
         // console.log(result)
     }
 
@@ -52,7 +53,7 @@ export default class SearchImage extends Component {
     this.setState({ status: 'pending' })
     
     try {
-        const data = await Search(page, query)
+        const data = Search(page, query)
         console.log(data)
          this.setState({ status: 'resolved' })
     }
