@@ -224,3 +224,10 @@ img {
 width: 300px;
   margin: 20px auto;
 }
+.Error{
+  width: 400px;
+  color:crimson;
+  margin: 50px auto;
+  font-size: 20px;
+  font-style: italic;
+}

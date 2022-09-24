@@ -7,8 +7,12 @@ import Modal from './Modal';
 
 
 const Search = async (page, query) => {
-    const result = await axios.get(`https://pixabay.com/api/?key=29442705-65f5f0476d101e3a0092bd469&q=${query}&image_type=photo&orientation=horizontal&page${page}&per_page=12`)
+    const result = await axios.get(`https://pixabay.com/api/?key=29442705-65f5f0476d101e3a0092bd469&q=${query}&image_type=photo&orientation=horizontal&page=${page}&per_page=12`)
     const dataImage = result.data.hits;
+    if (dataImage.length === 0) {
+        return Promise.reject(new Error(` Not any images with key word ${query}`))
+    }
+    
         return dataImage
     }
 
@@ -33,23 +37,24 @@ export default class SearchImage extends Component {
     async fetchImage() {
         const { page} = this.state;
         const { query } = this.props;
-        this.setState({ status: 'pending' })
-        const data = await Search(page, query)
+        
 
         try {   
-        this.setState(({image}) => {return {image:[...image, ...data]}})
-        console.log(data);
-        console.log(this.state.image)
-         this.setState({ status: 'resolved' })
+            this.setState({ status: 'pending' });
+            const data = await Search(page, query);
+            this.setState(({ image }) => { return { image: [...image, ...data] } });
+            console.log(data);
+            console.log(this.state.image);
+            this.setState({ status: 'resolved' });
         }
 
         catch (error){
         
-        this.setState({ error:'ALL IS BED!', status: 'rejected' })
+            this.setState({ error: `Not any images with key word ${query}`, status: 'rejected' });
         }
     }
     LoadMore = () => {
-
+        
        this.setState(({page}) => {return {page: page + 1}})
        
     }
@@ -60,14 +65,14 @@ export default class SearchImage extends Component {
      }
     
     render() {
-        const { status, image, showModal, modalContent } = this.state;
+        const { status, image, showModal, error } = this.state;
       if(status === 'idle')
             return
         <div className='IdleMessage'> Do you want to find  some images? </div>
         if (status === 'pending')
             return <Loader/>
         if (status === 'rejected')
-            return <div>Error</div>
+            return <div className='Error'>{ error}</div>
         if (status === 'resolved')
             return (
                 <>
@@ -78,7 +83,7 @@ export default class SearchImage extends Component {
                     {/* <button onClick={this.LoadMore}>Load more</button> */}
 
              {showModal && (<Modal OnClose={this.toggleModal}> 
-                        <img src={modalContent} alt='' />
+                        {/* <img src={modalContent} alt='' /> */}
                    <button className='ModalButton' type="button" onClick={this.toggleModal}> Close modal</button>
                     </Modal>)}
                     
