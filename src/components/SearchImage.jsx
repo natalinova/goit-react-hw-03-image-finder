@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Button from './Button';
 import ImageGallery from './ImageGallery';
 import Loader from './Loader';
-import Modal from './Modal';
+// import Modal from './Modal';
 
 
 const Search = async (page, query) => {
@@ -22,8 +22,7 @@ export default class SearchImage extends Component {
         page:1,
         error: null,
         status: 'idle',
-        showModal: false,
-        modalContent:''
+
     }
     componentDidUpdate(prevProps, prevState) {
         const {page} = this.state
@@ -34,6 +33,7 @@ export default class SearchImage extends Component {
         }
        
     }
+
     async fetchImage() {
         const { page} = this.state;
         const { query } = this.props;
@@ -43,8 +43,6 @@ export default class SearchImage extends Component {
             this.setState({ status: 'pending' });
             const data = await Search(page, query);
             this.setState(({ image }) => { return { image: [...image, ...data] } });
-            console.log(data);
-            console.log(this.state.image);
             this.setState({ status: 'resolved' });
         }
 
@@ -58,19 +56,23 @@ export default class SearchImage extends Component {
        this.setState(({page}) => {return {page: page + 1}})
        
     }
-     toggleModal = () => {
-       this.setState(({showModal}) => ({
-           showModal: !showModal
-       }))
-     }
+
     
     render() {
-        const { status, image, showModal, error } = this.state;
+        const { status, image, error } = this.state;
       if(status === 'idle')
             return
         <div className='IdleMessage'> Do you want to find  some images? </div>
         if (status === 'pending')
-            return <Loader/>
+            return (
+                <>
+                    <ImageGallery
+                        array={image}
+                     />
+                    <Loader />
+                </>
+            )
+        
         if (status === 'rejected')
             return <div className='Error'>{ error}</div>
         if (status === 'resolved')
@@ -78,14 +80,9 @@ export default class SearchImage extends Component {
                 <>
                     <ImageGallery
                         array={image}
-                        loadModal={this.toggleModal} />
+                     />
                     <Button onClick={ this.LoadMore} />
-                    {/* <button onClick={this.LoadMore}>Load more</button> */}
-
-             {showModal && (<Modal OnClose={this.toggleModal}> 
-                        {/* <img src={modalContent} alt='' /> */}
-                   <button className='ModalButton' type="button" onClick={this.toggleModal}> Close modal</button>
-                    </Modal>)}
+        
                     
                 </>
                

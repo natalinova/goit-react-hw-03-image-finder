@@ -1,23 +1,26 @@
 import React from 'react';
+import ImageGalleryItem from './ImageGalleryItem';
 import './styles.css'
 
 
-export default function ImageGallery({ array, loadModal }) {
+export default function ImageGallery({ array}) {
     console.log(array)
     const list = array.map(({id, previewURL, largeImageURL}) => {
-        return <li className='ImageGalleryItem' key={id}>
-          <img className='ImageGalleryItem-image' src={previewURL} alt='' onClick={loadModal} />
-            </li>
+      return <ImageGalleryItem
+        id={id}
+        previewURL={previewURL}
+        largeImageURL={largeImageURL} />
 
     })
-    console.log(list)
+    
     return (
       <>
-            <ul className='ImageGallery'>{list}</ul>  
+        <ul className='ImageGallery'>{list}</ul>  
            
       </>
       
-  )
+    )
+
 }
 
 ImageGallery.defaultProps={array: []}

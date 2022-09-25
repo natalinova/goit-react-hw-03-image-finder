@@ -1,36 +1,30 @@
-import { Component } from "react";
-import { createPortal } from "react-dom";
+import React, { Component } from 'react';
+import Modal from './Modal';
+import './styles.css'
 
-const ModalRoot = document.querySelector('#modal-root')
-console.log(ModalRoot)
-export default class Modal extends Component {
-    componentDidMount() {
-        console.log('Modal !!ComponentDidMount')
-        window.addEventListener('keydown', this.handleKeyDown)
+
+export default class ImageGalleryItem extends Component {
+    state = {
+    showModal:false
     }
-    componentWillUnmount() {
-        console.log('Modal ComponentUnMount')
-        window.removeEventListener('keydown', this.handleKeyDown)
-    }
-    handleKeyDown = e => {
-            if (e.code === 'Escape'){
-                console.log('it need to close modal');
-                console.log(this.props);
-                this.props.OnClose()
-            }
-    }
-    handleBackdropClick = e => {
-        console.log('click in backdrop');  
-        console.log(e.target)
-        console.log(e.currentTarget)
-        if (e.target === e.currentTarget) {
-            this.props.OnClose()
-        }
-    }
-    render() {
-        return createPortal(<div className="Overlay" onClick={this.handleBackdropClick}>
-            <div className="Modal__content">{this.props.children}</div>
-        </div>, ModalRoot,
-        );
-    }
+    toggleModal = () => {
+       this.setState(({showModal}) => ({
+           showModal: !showModal
+       }))
+     }
+  render() {
+      return (
+        <>
+              <li className='ImageGalleryItem' key={this.props.id}>
+          <img className='ImageGalleryItem-image' src={this.props.previewURL} alt='' onClick={this.toggleModal} />
+            </li>
+              {this.state.showModal && (<Modal OnClose={this.toggleModal}> 
+                       
+                  <img src={ this.props.largeImageURL} alt=''/>
+                   <button className='ModalButton' type="button" onClick={this.toggleModal}> Close modal</button>
+                    </Modal>)} 
+        </>
+    
+    )
+  }
 }

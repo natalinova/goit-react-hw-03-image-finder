@@ -5,11 +5,11 @@ export default class Button extends Component {
         amount:''
     }
   handleLoad = () => {
-    console.log(this.props)
   this.props.onClick()
 }
 
   render() {
+    
     return (
         <button className='Button' onClick={this.handleLoad}>Load more images</button>
     )

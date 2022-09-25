@@ -12,7 +12,7 @@ export default class Finder extends Component {
   render() {
     return (
         <div>
-            <SearchBar onSubmit={this.handleFormSubmit} /> 
+        <SearchBar onSubmit={this.handleFormSubmit} /> 
             <SearchImage query={ this.state.query} />
       </div>
     )

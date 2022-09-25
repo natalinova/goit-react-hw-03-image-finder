@@ -17,9 +17,12 @@ export default class SearchBar extends Component {
             alert('Add yuor query, please');
             return
         }
-         this.props.onSubmit(this.state.query);
+      this.props.onSubmit(this.state.query);
+      
+    
+      
+     
 }
-
     
   render() {
     return (
