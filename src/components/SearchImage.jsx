@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import Button from './Button';
 import ImageGallery from './ImageGallery';
 import Loader from './Loader';
-// import Modal from './Modal';
 
 
 const Search = async (page, query) => {
@@ -51,18 +50,18 @@ export default class SearchImage extends Component {
             this.setState({ error: `Not any images with key word ${query}`, status: 'rejected' });
         }
     }
-    LoadMore = () => {
-        
-       this.setState(({page}) => {return {page: page + 1}})
-       
-    }
 
-    
+    LoadMore = () => {  
+       this.setState(({page}) => {return {page: page + 1}})  
+    }
+  
     render() {
         const { status, image, error } = this.state;
+
       if(status === 'idle')
             return
         <div className='IdleMessage'> Do you want to find  some images? </div>
+
         if (status === 'pending')
             return (
                 <>
@@ -82,10 +81,7 @@ export default class SearchImage extends Component {
                         array={image}
                      />
                     <Button onClick={ this.LoadMore} />
-        
-                    
                 </>
-               
             )   
   }
 }

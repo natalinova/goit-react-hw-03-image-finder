@@ -17,10 +17,8 @@ export default function ImageGallery({ array}) {
       <>
         <ul className='ImageGallery'>{list}</ul>  
            
-      </>
-      
+      </> 
     )
-
 }
 
 ImageGallery.defaultProps={array: []}
