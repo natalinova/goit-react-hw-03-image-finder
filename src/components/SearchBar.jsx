@@ -21,7 +21,7 @@ export default class SearchBar extends Component {
             return
         }
       this.props.onSubmit(this.state.query); 
-      this.props.clearData()
+      this.setState({ query: '' })
 }
     
   render() {
@@ -39,6 +39,7 @@ export default class SearchBar extends Component {
 
             <input
               className="SearchForm-input"
+              value={this.state.query}
               name='query'
                     type="text"
                     onChange={this.handleChangeInput}
