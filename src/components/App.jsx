@@ -35,21 +35,22 @@ export class App extends Component {
     }
 
     async fetchImage() {
-        const { page, query,image} = this.state;
+        const { page, query} = this.state;
       
         
 
         try {   
           this.setState({ status: 'pending' });
           const data = await Search(page, query);
-          if (image.length !== 0 && data.length);
+         
             this.setState(({ image }) => { return { image: [...image, ...data] } });
             this.setState({ status: 'resolved' });
         }
 
         catch (error){
         
-            this.setState({ error: `Not any images with key word ${query}`, status: 'rejected' });
+          this.setState({ error: `Not any images with key word ${query}`, status: 'rejected' });
+        
         }
     }
 
