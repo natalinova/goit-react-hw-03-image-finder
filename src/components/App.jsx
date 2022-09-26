@@ -79,14 +79,14 @@ async fetchImage(page, query) {
 
         {(status === 'rejected') &&
           <div className='Error'>{error}</div>};
-        {(status === 'resolved')&&
-                <>
-                    <ImageGallery
-                        array={image}
-                     />
-                    <Button onClick={ this.LoadMore} />
-                </>}
-              
+      
+        {(status === 'resolved') &&
+          <>
+            <ImageGallery
+               array={image}
+            />
+            <Button onClick={ this.LoadMore} />
+          </>}    
       </div>
     )
   }

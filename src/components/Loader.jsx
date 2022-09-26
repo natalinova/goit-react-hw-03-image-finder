@@ -13,8 +13,9 @@ import './styles.css'
 
 export default function Loader() {
   return (
-      <div className='Loader'>
+    <div className='Loader'>
           <h4>Wait for some seconds, please</h4>
-          <Audio /></div>
+      <Audio />
+    </div>
   )
 }
