@@ -56,9 +56,6 @@ async fetchImage(page, query) {
       const { page } = this.state;
     this.fetchImage(page, query)
   }
-  clearImage = () => {
-    this.setState({image: []}) 
-  }
   render() {
      const { status, image, error } = this.state;
     return(
