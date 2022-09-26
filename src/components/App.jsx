@@ -21,19 +21,17 @@ export class App extends Component {
         page:1,
         error: null,
      status: 'idle',
-        query: ''
-
-    }
-     componentDidUpdate(prevProps, prevState) {
+     query: ''
+   }
+  componentDidUpdate(prevProps, prevState) {
         const {page} = this.state
         const nextQuery = this.state.query
         if (page !== prevState.page) {
-            this.fetchImage(page,nextQuery)
+          this.fetchImage(page, nextQuery)
         }
-       
-    }
+  }
 
-    async fetchImage(page, query) {
+async fetchImage(page, query) {
        
         try {   
           this.setState({ status: 'pending' });
@@ -46,20 +44,18 @@ export class App extends Component {
         catch (error){
         
           this.setState({ error: `Not any images with key word ${query}`, status: 'rejected' });
-        
-        }
-    }
+  }
+}
 
   LoadMore = () => {  
-    
-       this.setState(({page}) => {return {page: page + 1}})  
-    }
+    this.setState(({ page }) => { return { page: page + 1 } })
+  }
   
-    handleFormSubmit = query => {
-      this.setState({ query: query, image: [], page: 1 })
+  handleFormSubmit = query => {
+      this.setState({ query: query, image: [], page: 1 });
       const { page } = this.state;
-      this.fetchImage(page,query)
-    }
+    this.fetchImage(page, query)
+  }
   clearImage = () => {
     this.setState({image: []}) 
   }
@@ -80,11 +76,9 @@ export class App extends Component {
             <Loader />
           </>
         }
-                
-            
-            
+
         {(status === 'rejected') &&
-          <div className='Error'>{error}</div>}
+          <div className='Error'>{error}</div>};
         {(status === 'resolved')&&
                 <>
                     <ImageGallery
