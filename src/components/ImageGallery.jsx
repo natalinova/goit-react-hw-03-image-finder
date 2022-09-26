@@ -15,8 +15,7 @@ export default function ImageGallery({ array}) {
     
     return (
       <>
-        <ul className='ImageGallery'>{list}</ul>  
-           
+        <ul className='ImageGallery'>{list}</ul>       
       </> 
     )
 }

@@ -23,11 +23,13 @@ export default class ImageGalleryItem extends Component {
               {this.state.showModal && (
                   <Modal OnClose={this.toggleModal}> 
                     <img className='ModalImage'
-                          src={this.props.largeImageURL}
-                          alt=''
-                      loading = "lazy"/>
+                        src={this.props.largeImageURL}
+                        alt=''
+                        loading = "lazy"/>
                      <button
-                          className='ModalButton' type="button" onClick={this.toggleModal}> Close modal</button>
+                          className='ModalButton'
+                          type="button"
+                          onClick={this.toggleModal}> Close modal</button>
                   </Modal>)} 
         </>
     )
