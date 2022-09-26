@@ -26,19 +26,15 @@ export class App extends Component {
     }
      componentDidUpdate(prevProps, prevState) {
         const {page} = this.state
-        const prevQuery = prevState.query;
         const nextQuery = this.state.query
-        if (prevQuery !== nextQuery || page !== prevState.page) {
+        if (page !== prevState.page) {
             this.fetchImage(page,nextQuery)
         }
        
     }
 
-    async fetchImage() {
-        const { page, query} = this.state;
-      
-        
-
+    async fetchImage(page, query) {
+       
         try {   
           this.setState({ status: 'pending' });
           const data = await Search(page, query);
@@ -54,12 +50,15 @@ export class App extends Component {
         }
     }
 
-    LoadMore = () => {  
+  LoadMore = () => {  
+    
        this.setState(({page}) => {return {page: page + 1}})  
     }
   
     handleFormSubmit = query => {
-        this.setState({query:query})
+      this.setState({ query: query, image: [], page: 1 })
+      const { page } = this.state;
+      this.fetchImage(page,query)
     }
   clearImage = () => {
     this.setState({image: []}) 
